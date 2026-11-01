@@ -51,7 +51,8 @@ import {
 import { alpha, Theme, useTheme } from "../utils/theme";
 
 const COUNTDOWN_SECONDS = 10;
-const SAMPLE_INTERVAL_MS = 50; // 20 samples per second
+const SAMPLE_INTERVAL_MS = 20; // 50 samples per second, fast enough to catch a short impact spike
+const PEAK_HOLD_MS = 5000; // how long the "strongest hit" reading stays on screen
 const DISPLAY_INTERVAL_MS = 150; // refresh the number on screen less often
 const MAX_HISTORY = 20;
 const RETRY_EVERY_MS = 10000; // if the network is down, try again this often
@@ -67,6 +68,8 @@ export default function Index() {
 
   const [available, setAvailable] = useState<boolean | null>(null);
   const [g, setG] = useState(1);
+  const [peak, setPeak] = useState(1);
+  const peakRef = useRef({ value: 1, at: 0 });
   const [phase, setPhase] = useState<DetectorPhase>("monitoring");
   const [contact, setContact] = useState("");
   const [includeLocation, setIncludeLocation] = useState(false);
@@ -318,9 +321,17 @@ export default function Index() {
         const mag = magnitude(values);
         const event = detector.current.update(mag, now);
 
+        // Remember the strongest reading for a few seconds so a quick hit is visible
+        const p = peakRef.current;
+        if (mag >= p.value || now - p.at > PEAK_HOLD_MS) {
+          p.value = mag;
+          p.at = now;
+        }
+
         if (now - lastDisplay.current > DISPLAY_INTERVAL_MS) {
           lastDisplay.current = now;
           setG(mag);
+          setPeak(p.value);
         }
         setPhase(detector.current.phase);
 
@@ -391,7 +402,7 @@ export default function Index() {
             </View>
           </View>
 
-          <StatusCard phase={phase} g={g} available={available} />
+          <StatusCard phase={phase} g={g} peak={peak} available={available} />
 
           <ReadinessRow
             telegram={telegramReady}

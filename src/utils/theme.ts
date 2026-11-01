@@ -30,32 +30,32 @@ export function alpha(hex: string, a: number): string {
   return `rgba(${(n >> 16) & 255}, ${(n >> 8) & 255}, ${n & 255}, ${a})`;
 }
 
-// Warm daylight: honey and rose on soft cream, with a calm sage green for "you're OK".
-const cozy: Theme = {
-  dark: false,
-  bgGradient: ["#FFD9B8", "#FFEEDD", "#FFF9F1"],
-  bg: "#FFF9F1",
-  surface: "rgba(255,255,255,0.88)",
-  surfaceHi: "#FFF3E6",
-  border: "rgba(170,95,45,0.17)",
-  text: "#3A2418",
-  muted: "#85695A",
-  track: "rgba(170,95,45,0.14)",
-  accent: "#D9691F",
-  accent2: "#DB4A68",
-  accentSoft: "rgba(217,105,31,0.14)",
-  onAccent: "#FFFFFF",
-  safe: "#3E9B6E",
-  safeSoft: "rgba(62,155,110,0.15)",
-  onSafe: "#FFFFFF",
-  warn: "#C98100",
-  warnSoft: "rgba(201,129,0,0.15)",
-  alert: "#D8343F",
-  alertSoft: "rgba(216,52,63,0.12)",
-  alertBgTop: "#FFD0C4",
-  alertBgBottom: "#FFF2EC",
+// Deep ocean: near-black navy water with cyan and blue light. Kept dark so it is easy on the eyes.
+const ocean: Theme = {
+  dark: true,
+  bgGradient: ["#07324F", "#041B2D", "#010910"],
+  bg: "#010910",
+  surface: "rgba(120,190,235,0.06)",
+  surfaceHi: "rgba(120,190,235,0.08)",
+  border: "rgba(140,200,240,0.13)",
+  text: "#E6F4FB",
+  muted: "#86A9BB",
+  track: "rgba(140,200,240,0.14)",
+  accent: "#33C4EE",
+  accent2: "#5B7CFF",
+  accentSoft: "rgba(51,196,238,0.17)",
+  onAccent: "#03202D",
+  safe: "#34E0A1",
+  safeSoft: "rgba(52,224,161,0.16)",
+  onSafe: "#032B1C",
+  warn: "#FFC247",
+  warnSoft: "rgba(255,194,71,0.17)",
+  alert: "#FF5470",
+  alertSoft: "rgba(255,84,112,0.17)",
+  alertBgTop: "#3A0C1F",
+  alertBgBottom: "#10050B",
 };
 
 export function useTheme(): Theme {
-  return cozy;
+  return ocean;
 }

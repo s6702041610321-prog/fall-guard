@@ -16,10 +16,12 @@ const LABELS: Record<DetectorPhase, string> = {
 export default function StatusCard({
   phase,
   g,
+  peak,
   available,
 }: {
   phase: DetectorPhase;
   g: number;
+  peak: number;
   available: boolean | null;
 }) {
   const t = useTheme();
@@ -65,6 +67,7 @@ export default function StatusCard({
           <View style={[styles.tick, { left: pct(FALL_CONFIG.freeFallG) }]} />
           <View style={[styles.tick, { left: pct(FALL_CONFIG.impactG) }]} />
         </View>
+        <Text style={styles.peak}>Strongest hit just now: {peak.toFixed(2)} g</Text>
         <View style={styles.meterLabels}>
           <Text style={styles.meterText}>Free-fall {FALL_CONFIG.freeFallG} g</Text>
           <Text style={styles.meterText}>Impact {FALL_CONFIG.impactG} g</Text>
@@ -104,6 +107,7 @@ const makeStyles = (t: Theme) =>
     },
     fill: { borderRadius: 999, height: 8 },
     tick: { backgroundColor: t.muted, height: 8, opacity: 0.7, position: "absolute", width: 2 },
+    peak: { color: t.text, fontSize: 13, fontWeight: "700", marginTop: 12, textAlign: "center" },
     meterLabels: { flexDirection: "row", justifyContent: "space-between", marginTop: 8 },
     meterText: { color: t.muted, fontSize: 12 },
   });
